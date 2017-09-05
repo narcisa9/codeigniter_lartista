@@ -53,6 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'pages';
 $route['^(\w{2})/menu'] = 'pages/menu';
 $route['^(\w{2})/pizzas'] = 'pages/pizzas';
+$route['^(\w{2})/gustari'] = 'pages/gustari';
 $route['^(\w{2})/about'] = 'pages/about';
 $route['^(\w{2})/contact'] = 'pages/contact';
 $route['^(\w{2})/blog'] = 'pages/blog';

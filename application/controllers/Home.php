@@ -13,7 +13,8 @@ class Home extends MY_Controller {
 	}
 	
 	public function test()
-	{
+	{ 
+	
 	    $this->mViewData['test'] = 'test';
 		$this->render('test', 'default','data');
 	}

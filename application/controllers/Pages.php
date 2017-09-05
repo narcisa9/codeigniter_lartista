@@ -33,6 +33,13 @@ class Pages extends MY_Controller {
 		//print_r($this->mViewData['categories']);
 		$this->render('pizzas', 'default_lartista');
 	}
+	public function gustari()
+	{
+	    $this->mViewData['test'] = 'test';
+		$this->mViewData['categories'] = $this->page_model->get_menu();
+		//print_r($this->mViewData['categories']);
+		$this->render('pizzas', 'default_lartista');
+	}
 	public function about()
 	{
 		$aboutus =  $this->page_model->get_page_aboutus(1);
