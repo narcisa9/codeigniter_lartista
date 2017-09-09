@@ -13,6 +13,11 @@ class User extends Admin_Controller {
 	public function index()
 	{
 		$crud = $this->generate_crud('users');
+		$crud->display_as('groups','Grupuri');
+		$crud->display_as('username','Username');
+		$crud->display_as('first_name','Numele');
+		$crud->display_as('last_name','Prenumele');
+		$crud->display_as('active','Activitate');
 		$crud->columns('groups', 'username', 'email', 'first_name', 'last_name', 'active');
 		$this->unset_crud_fields('ip_address', 'last_login');
 
@@ -31,8 +36,9 @@ class User extends Admin_Controller {
 		// disable direct create / delete Frontend User
 		$crud->unset_add();
 		$crud->unset_delete();
-
-		$this->mPageTitle = 'Users';
+        
+	    $crud->set_language("romanian");
+		$this->mPageTitle = 'Utilizatori';
 		$this->render_crud();
 	}
 
@@ -85,7 +91,7 @@ class User extends Admin_Controller {
 		// get list of Frontend user groups
 		$this->load->model('group_model', 'groups');
 		$this->mViewData['groups'] = $this->groups->get_all();
-		$this->mPageTitle = 'Create User';
+		$this->mPageTitle = 'Creaza utilizator';
 
 		$this->mViewData['form'] = $form;
 		$this->render('user/create');
@@ -95,7 +101,11 @@ class User extends Admin_Controller {
 	public function group()
 	{
 		$crud = $this->generate_crud('groups');
-		$this->mPageTitle = 'User Groups';
+		$crud->set_subject('Grup');
+		$crud->display_as('name','Nume');
+		$crud->display_as('description','Descriere');
+		$this->mPageTitle = 'Grupuri de utilizatori';
+		$crud->set_language("romanian");
 		$this->render_crud();
 	}
 
@@ -138,7 +148,7 @@ class User extends Admin_Controller {
 		$this->mViewData['target'] = $target;
 
 		$this->mViewData['form'] = $form;
-		$this->mPageTitle = 'Reset User Password';
+		$this->mPageTitle = 'Reseteaza parola de utilizator';
 		$this->render('user/reset_password');
 	}
 }

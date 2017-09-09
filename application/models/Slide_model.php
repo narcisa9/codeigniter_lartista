@@ -9,7 +9,7 @@ class Slide_model extends MY_Model {
 {
         if ($slug === FALSE)
         {
-			             $this->db->order_by('priority');
+			    $this->db->order_by('priority');
                 $query = $this->db->get('slides');
 				   
                 return $query->result_array();
