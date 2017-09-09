@@ -69,33 +69,20 @@ b {
   
 			
                            <div class="offer-menu2-item-single w3-card-4  w3-yellow w3-margin" style="padding:0px;"> 
-						   
-   <div style="margin-bottom: 10px;">
-    <?php if(!empty($item_image)): ?>
-								   <img src="<?php  echo !empty($item_image)?  base_url('assets/upload/menu/'.$item_image) : ''; ?>" width="402"  alt="<?php echo $item_image ?>" />
-	<?php endif; ?>
-	</div>
-    <div class="w3-container">
-
- 
-
-                    	<!--       <img class="offer-menu2-frame" src="<?php echo base_url('assets/images/frame.png'); ?>" />
-                              
-                                <div class="offer-menu2-thumb">
-                                    <img class="offer-menu2-inner-frame" src="<?php echo  base_url('assets/images/inner-shadow.png'); ?>" />
-                                </div> 
-                                <div class="offer-menu2-thumb-image">
-								  <?php if(!empty($item_image)): ?>
-								   <img src="<?php  echo !empty($item_image)?  base_url('assets/upload/menu/'.$item_image) : ''; ?>" width="313" height="220" alt="<?php echo $item_image ?>" />
-					    		   <?php endif; ?>
-								   </div> -->
+											   
+					   <div style="margin-bottom: 10px;">
+						<?php if(!empty($item_image)): ?>
+							<img src="<?php  echo !empty($item_image)?  base_url('assets/upload/menu/'.$item_image) : ''; ?>" width="402"  alt="<?php echo $item_image ?>" />
+						<?php endif; ?>
+						</div>
+                        <div class="w3-container">
                                 <div class="clear"></div>
                                 <span class="offer-menu2-icon flaticon-pizza-slice"></span>
                                 <div class="offer-menu2-details">
                                    <div class="single-offer-menu2-title"> <?php echo  ucfirst($name_menu); ?>
 									      <span class="single-offer-weigth"><?php echo !empty($item_weight) ? "(".$item_weight."".$simbol.")": '' ?><span>
 									</div>
-									<div class="single-offer-information">
+									<div class="single-offer-information" style="color:red">
 										<?php echo !empty($item_information) ? "(".$item_information.")": '' ?>
 									</div>
                                     <div class="single-offer-menu2-content">
