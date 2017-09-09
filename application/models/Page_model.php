@@ -24,7 +24,34 @@ class Page_model extends CI_Model {
 			$this->db->update('aboutus');
 		}
     } 
-    //menu
+	
+	//========= ingredients ====================
+	public function get_ingredients($slug = FALSE)
+    {
+        if ($slug === FALSE)
+        {
+                $query = $this->db->get('menu_ingredients');
+                return $query->result_array();
+        }
+
+        $query = $this->db->get_where('menu_ingredients', array('slug' => $slug));
+        return $query->row_array();
+   }
+   
+   	//========= preparats culinary ====================
+	public function get_preparats($slug = FALSE)
+    {
+        if ($slug === FALSE)
+        {
+                $query = $this->db->get('menu_items');
+                return $query->result_array();
+        }
+
+        $query = $this->db->get_where('menu_items', array('slug' => $slug));
+        return $query->row_array();
+   }
+   
+    //============= menu =======================
     public function get_menu()
     {   
 	  $sql3 = "SELECT 

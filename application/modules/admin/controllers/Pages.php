@@ -27,6 +27,7 @@ function _example_output($output = null)
 	{
 		//------ image crud --------------
 		$img = $this->generate_image_crud('slides', 'url', 'assets/upload', $order_field = 'priority', $title_field = 'title');
+		$img->set_language("romanian");
 		$output = $img->render();
 		$this->mViewData['output'] = $output;
 	  //---- end  iage crud -------------------
@@ -66,7 +67,7 @@ function _example_output($output = null)
 		$groups = $this->ion_auth->groups()->result();
 		unset($groups[0]);	// disable creation of "webmaster" account
 		$this->mViewData['groups'] = $groups;
-		$this->mPageTitle = 'Home Page';
+		$this->mPageTitle = 'Prima pagina';
 
 		$this->mViewData['form'] = $form;
 		$this->render('pages/homep');
@@ -75,54 +76,75 @@ function _example_output($output = null)
 	public function menu_categories()
 	{
 	$crud = $this->generate_crud('menu_category');
+	$crud->set_subject('Meniu');
 	$crud->columns('category');
 	$crud->unique_fields(['category']);
+	$crud->display_as('category','Meniu');
+	$crud->set_language("romanian");
+	//set
+	$this->mPageTitle = 'Meniu'; 
 	$this->render_crud();
 
-	//set
-	$this->mPageTitle = 'Menu categories';  
+	
 	//$this->render('pages/menu');
 	}
 	public function menu_ingredients()
 	{
 	$crud = $this->generate_crud('menu_ingredients');
+	$crud->set_subject('Ingredient');
 	$crud->change_field_type('ingredient_alergic', 'true_false', array('no', 'yes'));
 	$crud->columns('ingredient');
 	$crud->unique_fields(['ingredient']);
+	$crud->display_as('ingredient','Ingredient');
+	$crud->set_language("romanian");
+	//set
+	$this->mPageTitle = 'Ingrediente';  
 	$this->render_crud();
 
-	//set
-	$this->mPageTitle = 'Menu ingredients';  
+	
 	//$this->render('pages/menu');
 	}
 	public function menu_items()
-	{
+	{	
 	$crud = $this->generate_crud('menu_items');
+	$crud->set_subject('preparat  culinar');
 	//display
-	$crud->display_as('category_id','Menu Category');
-	$crud->display_as('ingredient_id','Ingredients');
-	$crud->display_as('item_name','Menu name');
-	$crud->display_as('item_price','Menu price');
+	$crud->display_as('category_id','Meniu');
+	$crud->display_as('intredient','Ingrediente');
+	$crud->display_as('item_name','Preparat culinar');
+	$crud->display_as('item_price','Pret')->display_as('item_weight','Gramaj')->display_as('item_information','Informatii');
+	$crud->display_as('item_image','Imagine');
 	$crud->columns('item_name','category_id','item_information','item_weight','item_price','item_image');
-    $crud->set_subject('Menu');
+    
 	
 	//relation
     $crud->set_relation('category_id','menu_category','category');
 	$crud->set_relation_n_n('intredient', 'menu_item_ingredien', 'menu_ingredients', 'item_id', 'ingredient_id', 'ingredient');
 	
 	$crud->required_fields('item_name','category_id');
+	//------------------
+    $crud->callback_before_update(array($this,'check_multiselect_field'));
+	$crud->callback_before_insert(array($this,'check_multiselect_field'));
+	$crud->set_lang_string('update_error','Campul Ingrediente este obligatoriu');
+	//------------------
     $crud->set_field_upload('item_image','assets/upload/menu');
-	
-	$this->render_crud();
-
+	$crud->set_language("romanian");
 	//set
-	$this->mPageTitle = 'Menu items';  
+	$this->mPageTitle = 'Preparate culinare';  
+	$this->render_crud();
+	
 	}
 	
+   function check_multiselect_field($post_array){
+       if(empty($post_array['intredient'])){
+            return false;
+        }
+        return true;
+    }   
 	
 	public function about()
 	{    
-		$this->mPageTitle = 'About Us';       
+		$this->mPageTitle = 'Despre noi';       
 		//update
 		$form = $this->form_builder->create_form();
 		if ($form->validate())
@@ -254,179 +276,5 @@ function _example_output($output = null)
 	
 	
 	
-	// Admin Users CRUD
-	public function admin_user()
-	{
-		$crud = $this->generate_crud('admin_users');
-		$crud->columns('groups', 'username', 'first_name', 'last_name', 'active');
-		$this->unset_crud_fields('ip_address', 'last_login');
-
-		// cannot change Admin User groups once created
-		if ($crud->getState()=='list')
-		{
-			$crud->set_relation_n_n('groups', 'admin_users_groups', 'admin_groups', 'user_id', 'group_id', 'name');
-		}
-
-		// only webmaster can reset Admin User password
-		if ( $this->ion_auth->in_group(array('webmaster', 'admin')) )
-		{
-			$crud->add_action('Reset Password', '', $this->mModule.'/panel/admin_user_reset_password', 'fa fa-repeat');
-		}
-		
-		// disable direct create / delete Admin User
-		$crud->unset_add();
-		$crud->unset_delete();
-
-		$this->mPageTitle = 'Admin Users';
-		$this->render_crud();
-	}
-
-	// Create Admin User
-	public function admin_user_create()
-	{
-		// (optional) only top-level admin user groups can create Admin User
-		//$this->verify_auth(array('webmaster'));
-
-		$form = $this->form_builder->create_form();
-
-		if ($form->validate())
-		{
-			// passed validation
-			$username = $this->input->post('username');
-			$email = $this->input->post('email');
-			$password = $this->input->post('password');
-			$additional_data = array(
-				'first_name'	=> $this->input->post('first_name'),
-				'last_name'		=> $this->input->post('last_name'),
-			);
-			$groups = $this->input->post('groups');
-
-			// create user (default group as "members")
-			$user = $this->ion_auth->register($username, $password, $email, $additional_data, $groups);
-			if ($user)
-			{
-				// success
-				$messages = $this->ion_auth->messages();
-				$this->system_message->set_success($messages);
-			}
-			else
-			{
-				// failed
-				$errors = $this->ion_auth->errors();
-				$this->system_message->set_error($errors);
-			}
-			refresh();
-		}
-
-		$groups = $this->ion_auth->groups()->result();
-		unset($groups[0]);	// disable creation of "webmaster" account
-		$this->mViewData['groups'] = $groups;
-		$this->mPageTitle = 'Create Admin User';
-
-		$this->mViewData['form'] = $form;
-		$this->render('panel/admin_user_create');
-	}
-
-	// Admin User Groups CRUD
-	public function admin_user_group()
-	{
-		$crud = $this->generate_crud('admin_groups');
-		$this->mPageTitle = 'Admin User Groups';
-		$this->render_crud();
-	}
-
-	// Admin User Reset password
-	public function admin_user_reset_password($user_id)
-	{
-		// only top-level users can reset Admin User passwords
-		$this->verify_auth(array('webmaster'));
-
-		$form = $this->form_builder->create_form();
-		if ($form->validate())
-		{
-			// pass validation
-			$data = array('password' => $this->input->post('new_password'));
-			if ($this->ion_auth->update($user_id, $data))
-			{
-				$messages = $this->ion_auth->messages();
-				$this->system_message->set_success($messages);
-			}
-			else
-			{
-				$errors = $this->ion_auth->errors();
-				$this->system_message->set_error($errors);
-			}
-			refresh();
-		}
-
-		$this->load->model('admin_user_model', 'admin_users');
-		$target = $this->admin_users->get($user_id);
-		$this->mViewData['target'] = $target;
-
-		$this->mViewData['form'] = $form;
-		$this->mPageTitle = 'Reset Admin User Password';
-		$this->render('panel/admin_user_reset_password');
-	}
-
-	// Account Settings
-	public function account()
-	{
-		// Update Info form
-		$form1 = $this->form_builder->create_form($this->mModule.'/panel/account_update_info');
-		$form1->set_rule_group('panel/account_update_info');
-		$this->mViewData['form1'] = $form1;
-
-		// Change Password form
-		$form2 = $this->form_builder->create_form($this->mModule.'/panel/account_change_password');
-		$form1->set_rule_group('panel/account_change_password');
-		$this->mViewData['form2'] = $form2;
-
-		$this->mPageTitle = "Account Settings";
-		$this->render('panel/account');
-	}
-
-	// Submission of Update Info form
-	public function account_update_info()
-	{
-		$data = $this->input->post();
-		if ($this->ion_auth->update($this->mUser->id, $data))
-		{
-			$messages = $this->ion_auth->messages();
-			$this->system_message->set_success($messages);
-		}
-		else
-		{
-			$errors = $this->ion_auth->errors();
-			$this->system_message->set_error($errors);
-		}
-
-		redirect($this->mModule.'/panel/account');
-	}
-
-	// Submission of Change Password form
-	public function account_change_password()
-	{
-		$data = array('password' => $this->input->post('new_password'));
-		if ($this->ion_auth->update($this->mUser->id, $data))
-		{
-			$messages = $this->ion_auth->messages();
-			$this->system_message->set_success($messages);
-		}
-		else
-		{
-			$errors = $this->ion_auth->errors();
-			$this->system_message->set_error($errors);
-		}
-
-		redirect($this->mModule.'/panel/account');
-	}
 	
-	/**
-	 * Logout user
-	 */
-	public function logout()
-	{
-		$this->ion_auth->logout();
-		redirect($this->mConfig['login_url']);
-	}
 }

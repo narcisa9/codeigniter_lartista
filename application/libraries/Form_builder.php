@@ -231,6 +231,11 @@ class Form {
 		$extra['class'] = $class;
 		return $this->btn_submit($label, $extra);
 	}
+	public function bs3_trimite($label = 'Trimite', $class = 'btn btn-primary', $extra = array())
+	{
+		$extra['class'] = $class;
+		return $this->btn_submit($label, $extra);
+	}
 	public function bs3_upload($label, $name, $value = NULL, $extra = array())
 	{
 		$extra['class'] = 'form-control';

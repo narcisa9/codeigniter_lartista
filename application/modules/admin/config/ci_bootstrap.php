@@ -15,7 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $config['ci_bootstrap'] = array(
 
 	// Site name
-	'site_name' => 'Admin Panel',
+	//'site_name' => 'Admin Panel',
+	'site_name' => 'Panou Admin',
 
 	// Default page title prefix
 	'page_title_prefix' => '',
@@ -60,52 +61,64 @@ $config['ci_bootstrap'] = array(
 	// Menu items
 	'menu' => array(
 		'home' => array(
-			'name'		=> 'Home',
+			//'name'		=> 'Home',
+			'name'		=> 'Acasa',
 			'url'		=> '',
 			'icon'		=> 'fa fa-home',
 		),
 		'user' => array(
-			'name'		=> 'Users',
+			//'name'		=> 'Users',
+			'name'		=> 'Utilizatori',
 			'url'		=> 'user',
 			'icon'		=> 'fa fa-users',
 			'children'  => array(
-				'List'			=> 'user',
+				/*'List'			=> 'user',
 				'Create'		=> 'user/create',
-				'User Groups'	=> 'user/group',
+				'User Groups'	=> 'user/group', */
+				'Lista'			=> 'user',
+				'Creeaza'		=> 'user/create',
+				'Grupuri'	=> 'user/group',
 			)
 		),
 		'panel' => array(
-			'name'		=> 'Admin Panel',
+			//'name'		=> 'Admin Panel',
+			'name'		=> 'Administratori',
 			'url'		=> 'panel',
 			'icon'		=> 'fa fa-cog',
 			'children'  => array(
-				'Admin Users'			=> 'panel/admin_user',
+				/*'Admin Users'			=> 'panel/admin_user',
 				'Create Admin User'		=> 'panel/admin_user_create',
-				'Admin User Groups'		=> 'panel/admin_user_group',
+				'Admin User Groups'		=> 'panel/admin_user_group', */
+				'Lista'			=> 'panel/admin_user',
+				'Creeaza'		=> 'panel/admin_user_create',
+				'Grupuri'		=> 'panel/admin_user_group',
+				
 			)
 		),
 		'pages' => array(
-			'name'		=> 'Pages',
+			'name'		=> 'Administrare pagini',
 			'url'		=> 'pages',
 			'icon'		=> 'fa fa-file',
 			'children'  => array(
-				'Home'			  => 'pages/homep',
-				'Menu Categories' => 'pages/menu_categories',
-				'Menu Ingredients' => 'pages/menu_ingredients',
-				'Menu Items'      => 'pages/menu_items',
-				'About Us'		  => 'pages/about',
+				'Acasa'			  => 'pages/homep',
+				'Meniuri' => 'pages/menu_categories',
+				'Ingrediente' => 'pages/menu_ingredients',
+				'Preparate culinare'      => 'pages/menu_items',
+				'Despre  noi'		  => 'pages/about',
 			)
 		),
 		'util' => array(
-			'name'		=> 'Utilities',
+			'name'		=> 'Utilitare',
 			'url'		=> 'util',
 			'icon'		=> 'fa fa-cogs',
 			'children'  => array(
-				'Database Versions'		=> 'util/list_db',
+				//'Database Versions'		=> 'util/list_db',
+				'Baza de date'		=> 'util/list_db',
 			)
 		),
 		'logout' => array(
-			'name'		=> 'Sign Out',
+			//'name'		=> 'Sign Out',
+			'name'		=> 'Deconecteaza-te',
 			'url'		=> 'panel/logout',
 			'icon'		=> 'fa fa-sign-out',
 		)
@@ -147,7 +160,8 @@ $config['ci_bootstrap'] = array(
 	'useful_links' => array(
 		array(
 			'auth'		=> array('webmaster', 'admin', 'manager', 'staff'),
-			'name'		=> 'Frontend Website',
+			//'name'		=> 'Frontend Website',
+			'name'		=> 'Vizualizare Website',
 			'url'		=> '',
 			'target'	=> '_blank',
 			'color'		=> 'text-aqua'

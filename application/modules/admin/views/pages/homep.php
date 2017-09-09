@@ -14,7 +14,7 @@
   <div class="col-md-12">
    <div class="box box-primary">
       <div class="box-header">
-	    <h3 class="box-title">Slider Images</h3>
+	    <h3 class="box-title">Imagini Slider </h3>
 	  </div>
       <div class="box-body"><?php echo $output->output; ?></div>
     </div>

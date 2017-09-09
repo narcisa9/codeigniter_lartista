@@ -21,6 +21,11 @@ class Panel extends Admin_Controller {
 	{
 		$crud = $this->generate_crud('admin_users');
 		$crud->columns('groups', 'username', 'first_name', 'last_name', 'active');
+		$crud->display_as('groups','Grupuri');
+		$crud->display_as('username','Username');
+		$crud->display_as('first_name','Numele');
+		$crud->display_as('last_name','Prenumele');
+		$crud->display_as('active','Activitate');
 		$this->unset_crud_fields('ip_address', 'last_login');
 
 		// cannot change Admin User groups once created
@@ -38,8 +43,9 @@ class Panel extends Admin_Controller {
 		// disable direct create / delete Admin User
 		$crud->unset_add();
 		$crud->unset_delete();
+		$crud->set_language("romanian");
 
-		$this->mPageTitle = 'Admin Users';
+		$this->mPageTitle = 'Administratori';
 		$this->render_crud();
 	}
 
@@ -83,7 +89,7 @@ class Panel extends Admin_Controller {
 		$groups = $this->ion_auth->groups()->result();
 		unset($groups[0]);	// disable creation of "webmaster" account
 		$this->mViewData['groups'] = $groups;
-		$this->mPageTitle = 'Create Admin User';
+		$this->mPageTitle = 'Creaza administrator';
 
 		$this->mViewData['form'] = $form;
 		$this->render('panel/admin_user_create');
@@ -93,7 +99,11 @@ class Panel extends Admin_Controller {
 	public function admin_user_group()
 	{
 		$crud = $this->generate_crud('admin_groups');
-		$this->mPageTitle = 'Admin User Groups';
+		$crud->set_subject('Grup Admin');
+		$crud->display_as('name','Nume');
+		$crud->display_as('description','Descriere');
+		$this->mPageTitle = 'Grupuri de administratori';
+		$crud->set_language("romanian");
 		$this->render_crud();
 	}
 
@@ -126,7 +136,7 @@ class Panel extends Admin_Controller {
 		$this->mViewData['target'] = $target;
 
 		$this->mViewData['form'] = $form;
-		$this->mPageTitle = 'Reset Admin User Password';
+		$this->mPageTitle = 'Reseteaza parola administrator';
 		$this->render('panel/admin_user_reset_password');
 	}
 
@@ -143,7 +153,7 @@ class Panel extends Admin_Controller {
 		$form1->set_rule_group('panel/account_change_password');
 		$this->mViewData['form2'] = $form2;
 
-		$this->mPageTitle = "Account Settings";
+		$this->mPageTitle = "Setari in cont";
 		$this->render('panel/account');
 	}
 
