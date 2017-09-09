@@ -47,4 +47,12 @@ class Pages extends MY_Controller {
 	    $this->mViewData['aboutus'] = $aboutus;
 		$this->render('about', 'default_lartista','data');
 	}
+	
+	public function contact()
+	{
+		//$aboutus =  $this->page_model->get_page_aboutus(1);
+		//var_dump($aboutus)
+	    //$this->mViewData['aboutus'] = $aboutus;
+		$this->render('contact', 'default_lartista','data');
+	}
 }
